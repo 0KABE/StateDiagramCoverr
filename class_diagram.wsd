@@ -1,0 +1,48 @@
+@startuml Class Diagram
+class Node{
+    + Name : string
+    + Quid : string
+    + To : List<Node>
+    + In : int
+    + Out : int
+
+    + Node()
+    + Node (Node node)
+}
+class Graph{
+    - Node : Dictionary<string, Node>
+    + Start : Node
+    + End : Node
+    - stk : List<Node>
+    - vis : HashSet<string>
+
+    + Graph (MDLFile)
+    + VerticesCover() : List<NodePath> 
+    + EdgesCover() : List<NodePath> 
+    - Dfs (string, List<NodePath>, HashSet<string>) : void
+}
+class BipartiteGraph{
+    - bipartite : List<Dictionary<string, Node>>
+    - closure : PassingClosure
+    - matching : List<Dictionary<string, string>> 
+    - vis : List<Dictionary<string, bool>>
+
+    + BipartiteGraph(Dictionary<string, Node>)
+    + MaxMatch() : IEnumerable<NodePath>
+    - BuildMatching() : List<Dictionary<string, string>>
+    - BuildVis() : List<Dictionary<string, bool>>
+    - Dfs(string, int) : int 
+
+}
+class NodePath{
+    + Path : List<Node>
+    + First : string
+    + Last : string
+
+    + NodePath()
+    + ToString()
+    + {static} operator+(NodePath, NodePath) : NodePath
+    + {static} operator+(NodePath, Node) : NodePath
+    + {static} operator+(Node, NodePath) : NodePath
+}
+@enduml

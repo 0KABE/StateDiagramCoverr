@@ -1,0 +1,90 @@
+(object Attribute
+	tool       	"Cplusplus"
+	name       	"default__Module-Spec"
+	documentation 	
+|The MFC class CInternetConnection manages your connection to an Internet server. It is the base class for MFC classes CFtpConnection, CHttpConnection, and CGopherConnection. Each of these classes provides additional functionality for communicating with the respective FTP, HTTP, or gopher server.
+|
+|To communicate directly with an Internet server, you must have a CInternetSession object and a CInternetConnection object.
+					
+	value      	(list Attribute_Set
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"FileCapitalization"
+		value      	("FileCapitalizationSet" 0)
+		location   	(538, 575))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"CodeGenExtraDirectories"
+		value      	("CodeGenExtraDirectoriesSet" 0))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"StripClassPrefix"
+		value      	"")
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"UseTabs"
+		value      	FALSE)
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"TabWidth"
+		value      	8)
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"IndentWidth"
+		value      	4)
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"AccessIndentation"
+		value      	-2)
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"CreateBackupFiles"
+		value      	FALSE)
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"ModelIdCommentRules"
+		value      	("ModelIdCommentRulesSet" 1))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"CommentRules"
+		value      	("CommentRulesSet" 1))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"PageWidth"
+		value      	80)
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"ClassMemberOrder"
+		value      	("MemberOrderSet" 1))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"OneParameterPerLine"
+		value      	FALSE)
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"NamespaceBraceStyle"
+		value      	("BraceStyleSet" 1))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"ClassBraceStyle"
+		value      	("BraceStyleSet" 2))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"FunctionBraceStyle"
+		value      	("BraceStyleSet" 2))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"CommentStyleProperty"
+		value      	("CommentStyleSet" 1))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"Copyright"
+		value      	(value Text ""))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"InitialHeaderIncludes"
+		value      	(value Text ""))
+		(object Attribute
+		tool       	"Cplusplus"
+		name       	"InitialBodyIncludes"
+		value      	(value Text ""))))

@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace StateMachine.MdlReader
+{
+    enum State
+    {
+        START_UP,
+        END_OFF,
+        SPLIT_CHAR,
+        SINGLE_QUOTE,
+        NON_QUOTE,
+        COMMA
+    }
+    class MdlFileContent
+    {
+        public List<string> Content { get; }
+        public int Index { get; set; }
+        public bool EndOfFile
+        {
+            get
+            {
+                return Index == Content.Count ? true : false;
+            }
+        }
+        static readonly HashSet<char> splitChars = new HashSet<char> { '(', ')' };
+        public MdlFileContent(string path)
+        {
+            Content = new List<string>();
+            Index = 0;
+            StreamReader stream = new StreamReader(path);
+            while (!stream.EndOfStream)
+            {
+                SkipWhiteSpace(stream);
+                //FSM (finite state machine)
+                string s = "";
+                State state = State.START_UP;
+                while (!stream.EndOfStream && state != State.END_OFF)
+                {
+                    char c = (char)stream.Peek();
+                    switch (state)
+                    {
+                        case State.START_UP:
+                            if (splitChars.Contains(c)) { s += (char)stream.Read(); state = State.SPLIT_CHAR; }
+                            else if (c == '"') { s += (char)stream.Read(); state = State.SINGLE_QUOTE; }
+                            else { s += (char)stream.Read(); state = State.NON_QUOTE; }
+                            break;
+                        case State.NON_QUOTE:
+                            if (IsWhiteSpace(c) || splitChars.Contains(c)) { state = State.END_OFF; }
+                            else if (c == '"') { s += (char)stream.Read(); state = State.SINGLE_QUOTE; }
+                            else if (c == ',') { s += (char)stream.Read(); state = State.COMMA; }
+                            else { s += (char)stream.Read(); }
+                            break;
+                        case State.COMMA:
+                            if (splitChars.Contains(c)) { state = State.END_OFF; }
+                            else { s += stream.Read(); }
+                            break;
+                        case State.SINGLE_QUOTE:
+                            if (c == '"') { s += (char)stream.Read(); state = State.END_OFF; }
+                            else { s += (char)stream.Read(); }
+                            break;
+                        case State.SPLIT_CHAR:
+                            state = State.END_OFF;
+                            break;
+                        case State.END_OFF:
+                            break;
+                    }
+                }
+                if (Content.Count == 0 && s == "\n") continue;
+                if (Content.Count > 0 && Content.Last() == "\n" && s == "\n") continue;
+                Content.Add(s);
+            }
+        }
+        public string Next()
+        {
+            return Content[Index++];
+        }
+        public string Prev()
+        {
+            return Content[Index--];
+        }
+        public string Peek()
+        {
+            return Content[Index];
+        }
+        StreamReader SkipWhiteSpace(StreamReader stream)
+        {
+            while (!stream.EndOfStream && IsWhiteSpace((char)stream.Peek())) { stream.Read(); }
+            return stream;
+        }
+        bool IsWhiteSpace(char c)
+        {
+            if (c == ' ' || c == '\r' || c == '\t') return true;
+            return false;
+        }
+    }
+}
