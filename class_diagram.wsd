@@ -10,9 +10,9 @@ class Node{
     + Node (Node node)
 }
 class Graph{
-    - Node : Dictionary<string, Node>
     + Start : Node
     + End : Node
+    - Node : Dictionary<string, Node>
     - stk : List<Node>
     - vis : HashSet<string>
 
