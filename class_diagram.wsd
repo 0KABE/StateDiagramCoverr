@@ -17,22 +17,21 @@ class Graph{
     - vis : HashSet<string>
 
     + Graph (MDLFile)
-    + VerticesCover() : List<NodePath> 
-    + EdgesCover() : List<NodePath> 
+    + VerticesCover() : List<NodePath>
+    + EdgesCover() : List<NodePath>
     - Dfs (string, List<NodePath>, HashSet<string>) : void
 }
 class BipartiteGraph{
     - bipartite : List<Dictionary<string, Node>>
     - closure : PassingClosure
-    - matching : List<Dictionary<string, string>> 
+    - matching : List<Dictionary<string, string>>
     - vis : List<Dictionary<string, bool>>
 
     + BipartiteGraph(Dictionary<string, Node>)
     + MaxMatch() : IEnumerable<NodePath>
     - BuildMatching() : List<Dictionary<string, string>>
     - BuildVis() : List<Dictionary<string, bool>>
-    - Dfs(string, int) : int 
-
+    - Dfs(string, int) : int
 }
 class NodePath{
     + Path : List<Node>
