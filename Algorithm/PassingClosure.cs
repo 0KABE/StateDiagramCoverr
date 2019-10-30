@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StateMachine.Path;
 
-namespace StateMachine
+namespace StateMachine.Algorithm
 {
     class PassingClosure
     {
@@ -34,8 +35,8 @@ namespace StateMachine
                 foreach (var v in u.To)
                 {
                     // shortestPath[u.Quid][v.Quid] = u + shortestPath[u.Quid][v.Quid] + v;
-                    shortestPath[u.Quid][v.Quid] = u + shortestPath[v.Quid][v.Quid];
-                    distance[u.Quid][v.Quid] = 1;
+                    shortestPath[u.Quid][v] = u + shortestPath[v][v];
+                    distance[u.Quid][v] = 1;
                 }
             }
 
@@ -69,7 +70,7 @@ namespace StateMachine
                 {
                     if (u != v && ExistPath(u, v))
                     {
-                        res[u].To.Add(res[v]);
+                        res[u].To.Add(v);
                     }
                 }
             }

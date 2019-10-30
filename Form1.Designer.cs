@@ -1,4 +1,4 @@
-﻿namespace StateMachine
+﻿namespace StateMachine.Algorithm
 {
     partial class Form1
     {
@@ -32,6 +32,7 @@
             this.ParseMdlFileButton = new System.Windows.Forms.Button();
             this.MdlFilePathTextBox = new System.Windows.Forms.TextBox();
             this.OutPutTextBox = new System.Windows.Forms.TextBox();
+            this.GenerateStateDiagramButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // GetMdlFilePathButton
@@ -71,11 +72,22 @@
             this.OutPutTextBox.Size = new System.Drawing.Size(445, 291);
             this.OutPutTextBox.TabIndex = 3;
             // 
+            // GenerateStateDiagramButton
+            // 
+            this.GenerateStateDiagramButton.Location = new System.Drawing.Point(100, 341);
+            this.GenerateStateDiagramButton.Name = "GenerateStateDiagramButton";
+            this.GenerateStateDiagramButton.Size = new System.Drawing.Size(199, 57);
+            this.GenerateStateDiagramButton.TabIndex = 4;
+            this.GenerateStateDiagramButton.Text = "Generate State Diagram";
+            this.GenerateStateDiagramButton.UseVisualStyleBackColor = true;
+            this.GenerateStateDiagramButton.Click += new System.EventHandler(this.GenerateStateDiagramButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.GenerateStateDiagramButton);
             this.Controls.Add(this.OutPutTextBox);
             this.Controls.Add(this.MdlFilePathTextBox);
             this.Controls.Add(this.ParseMdlFileButton);
@@ -93,6 +105,7 @@
         private System.Windows.Forms.Button ParseMdlFileButton;
         private System.Windows.Forms.TextBox MdlFilePathTextBox;
         private System.Windows.Forms.TextBox OutPutTextBox;
+        private System.Windows.Forms.Button GenerateStateDiagramButton;
     }
 }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StateMachine.Properties {
+namespace StateMachine.Algorithm.Properties {
     using System;
     
     

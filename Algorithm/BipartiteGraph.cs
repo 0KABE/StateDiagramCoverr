@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StateMachine.Path;
 
-namespace StateMachine
+namespace StateMachine.Algorithm
 {
     class BipartiteGraph
     {
         List<Dictionary<string, Node>> bipartite;
         PassingClosure closure;
+        List<Dictionary<string, string>> matching;
+        List<Dictionary<string, bool>> vis;
         public BipartiteGraph(Dictionary<string, Node> graph)
         {
             bipartite = new List<Dictionary<string, Node>>{
@@ -32,10 +35,10 @@ namespace StateMachine
             //build graph edges
             foreach (var u in g.Keys)
             {
-                foreach (var v in g[u].To.ConvertAll<string>(new Converter<Node, string>(Node => Node.Quid)))
+                foreach (var v in g[u].To)
                 {
-                    bipartite[0][u].To.Add(bipartite[1][v]);
-                    bipartite[1][v].To.Add(bipartite[0][u]);
+                    bipartite[0][u].To.Add(bipartite[1][v].Quid);
+                    bipartite[1][v].To.Add(bipartite[0][u].Quid);
                 }
             }
         }
@@ -78,13 +81,11 @@ namespace StateMachine
                         ++j;
                     }
                 }
-                i = update ? i + 1 : i;
+                //i = update ? i + 1 : i;
+                i = update ? i : i + 1;
             }
             return paths;
         }
-        List<Dictionary<string, string>> matching;
-        List<Dictionary<string, bool>> vis;
-
         List<Dictionary<string, string>> BuildMatching()
         {
             List<Dictionary<string, string>> ret = new List<Dictionary<string, string>>{
@@ -118,7 +119,7 @@ namespace StateMachine
         int Dfs(string u, int from)
         {
             int to = (from + 1) % 2;
-            foreach (var v in bipartite[from][u].To.ConvertAll<string>(new Converter<Node, string>(node => node.Quid)))
+            foreach (var v in bipartite[from][u].To)
             {
                 if (!vis[to][v])
                 {

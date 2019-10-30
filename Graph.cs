@@ -4,35 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StateMachine.MdlReader;
+using StateMachine.Path;
 
-namespace StateMachine
+namespace StateMachine.Algorithm
 {
-    class Node
-    {
-        public string Name { get; set; }
-        public string Quid { get; set; }
-        public string Type { get; set; }
-        public List<Node> To { get; set; }
-        // public List<Node> From { get; set; }
-        public int In { get; set; }
-        public int Out { get; set; }
-        public Node()
-        {
-            To = new List<Node>();
-        }
-        public Node(Node node)
-        {
-            this.Name = node.Name;
-            this.Quid = node.Quid;
-            this.Type = node.Type;
-            this.To = new List<Node>();
-        }
-    }
     class Graph
     {
-        Dictionary<string, Node> Nodes { get; set; }
+        public Dictionary<string, Node> Nodes { get; set; }
         public Node Start { get; set; }
         public Node End { get; set; }
+        public Node this[string quid]
+        {
+            get
+            {
+                return Nodes[quid];
+            }
+        }
+
         public Graph(MDLFile file)
         {
             //states
@@ -77,56 +65,105 @@ namespace StateMachine
                 string client = (from property in obj.Properties
                                  where property.Name == "client_quidu"
                                  select property.Value).Cast<StringVal>().First().Value;
-                Nodes[client].To.Add(Nodes[supplier]);
-                //add in degree
-                ++Nodes[client].Out;
-                //add out degree
-                ++Nodes[supplier].In;
+                Nodes[client].To.Add(supplier);
+                Nodes[supplier].From.Add(client);
+                // //add in degree
+                // ++Nodes[client].Out;
+                // //add out degree
+                // ++Nodes[supplier].In;
             }
         }
 
-        public List<NodePath> VerticesCover()
+
+        // public List<NodePath> VerticesCover()
+        // {
+        //     BipartiteGraph bipartite = new BipartiteGraph(Nodes);
+        //     var match = bipartite.MaxMatch().ToList();
+        //     PassingClosure passingClosure = new PassingClosure(Nodes);
+        //     for (var i = 0; i < match.Count; ++i)
+        //     {
+        //         match[i] = passingClosure.Path(Start.Quid, match[i].First) + match[i] + passingClosure.Path(match[i].Last, End.Quid);
+        //     }
+        //     return match;
+        // }
+
+        public string ToPlantuml()
         {
-            BipartiteGraph bipartite = new BipartiteGraph(Nodes);
+            string uml = "@startuml\r\n";
+            //add nodes
+            foreach (Node node in Nodes.Values)
+            {
+                foreach (string quid in node.To)
+                {
+                    Node to = Nodes[quid];
+                    uml += string.Format("{0} --> {1}\r\n", node.Type.Contains("Normal") ? node.Name.Trim('\"') : "[*]", to.Type.Contains("Normal") ? to.Name.Trim('\"') : "[*]");
+                }
+            }
+            uml += "@enduml";
+            return uml;
+        }
+    }
+    class VerticesCover
+    {
+        public Graph Graph { get; set; }
+        public VerticesCover(Graph graph)
+        {
+            this.Graph = graph;
+        }
+        public List<NodePath> VerticesCoverPaths()
+        {
+            BipartiteGraph bipartite = new BipartiteGraph(Graph.Nodes);
             var match = bipartite.MaxMatch().ToList();
-            PassingClosure passingClosure = new PassingClosure(Nodes);
+            PassingClosure passingClosure = new PassingClosure(Graph.Nodes);
             for (var i = 0; i < match.Count; ++i)
             {
-                match[i] = passingClosure.Path(Start.Quid, match[i].First) + match[i] + passingClosure.Path(match[i].Last, End.Quid);
+                match[i] = passingClosure.Path(Graph.Start.Quid, match[i].First) + match[i] + passingClosure.Path(match[i].Last, Graph.End.Quid);
             }
             return match;
         }
+    }
+    class EdgesCover
+    {
+        public Graph Graph { get; set; }
         List<Node> stk;
         HashSet<string> vis;
+        public EdgesCover(Graph graph)
+        {
+            this.Graph = graph;
+        }
+        public List<NodePath> EdgesCoverPaths()
+        {
+            // List<NodePath> paths = new List<NodePath>();
+            // stk = new List<Node>();
+            // vis = new HashSet<string>();
+            // stk.Add(Graph.Start);
+            // Dfs(Graph.Start.Quid, paths, vis);
+            // return paths;
+
+            EulerDiagram eulerDiagram = new EulerDiagram(Graph);
+            NodePath path = eulerDiagram.EulerLoop();
+            return path.Split(Graph.End);
+        }
         void Dfs(string u, List<NodePath> paths, HashSet<string> vis)
         {
-            if (u == End.Quid)
+            if (u == Graph.End.Quid)
             {
                 NodePath path = new NodePath();
                 foreach (var i in stk) path = path + i;
                 paths.Add(path);
             }
-            foreach (var v in Nodes[u].To)
+            foreach (string q in Graph.Nodes[u].To)
             {
-                if (!vis.Contains(v.Quid) && v.Out > 0)
+                Node v = Graph.Nodes[q];
+                if (!vis.Contains(v.Quid))
                 {
                     vis.Add(v.Quid);
                     stk.Add(v);
-                    --v.Out;
                     Dfs(v.Quid, paths, vis);
                     stk.Remove(v);
                     vis.Remove(v.Quid);
                 }
             }
-        }
-        public List<NodePath> EdgesCover()
-        {
-            List<NodePath> paths = new List<NodePath>();
-            stk = new List<Node>();
-            vis = new HashSet<string>();
-            stk.Add(Start);
-            Dfs(Start.Quid, paths, vis);
-            return paths;
         }
     }
 }

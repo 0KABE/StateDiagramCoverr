@@ -1,7 +1,6 @@
 D:\GitHub\StateMachine\obj\Debug\StateMachine.csproj.GenerateResource.cache
 D:\GitHub\StateMachine\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\StateMachine\bin\Debug\Newtonsoft.Json.xml
-D:\GitHub\StateMachine\obj\Debug\StateMachine.Form1.resources
 D:\GitHub\StateMachine\obj\Debug\StateMachine.csproj.CopyComplete
 D:\GitHub\StateMachine\bin\Debug\StateMachine.exe.config
 D:\GitHub\StateMachine\bin\Debug\StateMachine.exe
@@ -10,3 +9,5 @@ D:\GitHub\StateMachine\obj\Debug\StateMachine.Properties.Resources.resources
 D:\GitHub\StateMachine\obj\Debug\StateMachine.exe
 D:\GitHub\StateMachine\obj\Debug\StateMachine.pdb
 D:\GitHub\StateMachine\obj\Debug\StateMachine.csprojAssemblyReference.cache
+D:\GitHub\StateMachine\obj\Debug\StateMachine.Algorithm.Form1.resources
+D:\GitHub\StateMachine\obj\Debug\StateMachine.PlantUML.resources
